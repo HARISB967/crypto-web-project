@@ -1,0 +1,32 @@
+<html>
+  <head>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+      $(document).ready(function() {
+        var coin = "bitcoin";
+        $.getJSON("https://api.coingecko.com/api/v3/simple/price?ids=" + coin + "&vs_currencies=inr&include_market_cap=true&include_24hr_vol=true&include_24hr_change=true&include_last_updated_at=true&precision=4", function(data) {
+          if (typeof data[coin].inr !== "undefined") {
+            $("#coin_name").html("Coin Name: " + coin);
+            $("#market_cap").html("Market Cap: " + data[coin].inr_market_cap);
+            $("#price").html("Price: " + data[coin].inr);
+            $("#volume").html("24hr Volume: " + data[coin].inr_24h_vol);
+            $("#change").html("24hr Change: " + data[coin].inr_24h_change + "%");
+            var last_updated = new Date(data[coin].last_updated_at * 1000);
+            $("#last_updated").html("Last Updated: " + last_updated.toLocaleString());
+          } else {
+            $("#error").html("Error: Currency not found");
+          }
+        });
+      });
+    </script>
+  </head>
+  <body>
+    <div id="coin_name"></div>
+    <div id="error"></div>
+    <div id="market_cap"></div>
+    <div id="price"></div>
+    <div id="volume"></div>
+    <div id="change"></div>
+    <div id="last_updated"></div>
+  </body>
+</html>
